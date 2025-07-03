@@ -11,6 +11,8 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.FallingBlockEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayNetworkHandler
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -19,6 +21,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.chunk.WorldChunk
 import org.tomidori.pupil.annotations.ExperimentalPolymerApi
+import org.tomidori.pupil.events.Disposable
 
 public inline fun elementHolder(block: ElementHolder.() -> Unit = {}): ElementHolder = ElementHolder().apply(block)
 
@@ -244,3 +247,49 @@ public inline fun ElementHolder.blockBoundAttachmentMoving(
     state: BlockState,
     block: BlockBoundAttachment.() -> Unit = {}
 ): BlockBoundAttachment? = org.tomidori.pupil.attachments.blockBoundAttachmentMoving(this, world, pos, state, block)
+
+public class HolderStartWatchingScope @PublishedApi internal constructor(
+    public val networkHandler: ServerPlayNetworkHandler
+) {
+    public val player: ServerPlayerEntity get() = networkHandler.player
+}
+
+public inline fun ElementHolder.onStartWatching(crossinline block: HolderStartWatchingScope.() -> Unit): Disposable =
+    (this as ElementHolderHook).`pupil$addStartWatchingListener` { HolderStartWatchingScope(it).block() }
+
+public class HolderStopWatchingScope @PublishedApi internal constructor(
+    public val networkHandler: ServerPlayNetworkHandler
+) {
+    public val player: ServerPlayerEntity get() = networkHandler.player
+}
+
+public inline fun ElementHolder.onStopWatching(crossinline block: HolderStopWatchingScope.() -> Unit): Disposable =
+    (this as ElementHolderHook).`pupil$addStopWatchingListener` { HolderStopWatchingScope(it).block() }
+
+public class HolderTickScope @PublishedApi internal constructor(
+    public val ticks: Int
+) {
+    public val isFirstTick: Boolean get() = ticks == 0
+}
+
+public inline fun ElementHolder.onTick(crossinline block: HolderTickScope.() -> Unit): Disposable {
+    var ticks = 0
+    return (this as ElementHolderHook).`pupil$addTickListener` { HolderTickScope(ticks++).block() }
+}
+
+public class HolderAttachmentSetScope @PublishedApi internal constructor(
+    public val attachment: HolderAttachment,
+    public val oldAttachment: HolderAttachment?
+)
+
+public inline fun ElementHolder.onAttachmentSet(crossinline block: HolderAttachmentSetScope.() -> Unit): Disposable =
+    (this as ElementHolderHook).`pupil$addAttachmentSetListener` { attachment, oldAttachment ->
+        HolderAttachmentSetScope(attachment, oldAttachment).block()
+    }
+
+public class HolderAttachmentRemovedScope @PublishedApi internal constructor(
+    public val oldAttachment: HolderAttachment
+)
+
+public inline fun ElementHolder.onAttachmentRemoved(crossinline block: HolderAttachmentRemovedScope.() -> Unit): Disposable =
+    (this as ElementHolderHook).`pupil$addAttachmentRemovedListener` { HolderAttachmentRemovedScope(it).block() }

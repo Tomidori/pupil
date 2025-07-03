@@ -3,6 +3,7 @@
   "package": "org.tomidori.pupil.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ElementHolderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
