@@ -14,6 +14,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.chunk.WorldChunk
 import org.tomidori.pupil.annotations.ExperimentalPolymerApi
+import org.tomidori.pupil.events.Disposable
 
 public inline fun manualAttachment(
     holder: ElementHolder,
@@ -127,3 +128,13 @@ public inline fun blockBoundAttachmentMoving(
     @Suppress("UnstableApiUsage")
     return BlockBoundAttachment.fromMoving(holder, world, pos, state)?.apply(block)
 }
+
+public class EntityAttachmentEntityLoadScope @PublishedApi internal constructor()
+
+public inline fun EntityAttachment.onEntityLoad(crossinline block: EntityAttachmentEntityLoadScope.() -> Unit): Disposable =
+    (this as EntityAttachmentHook).`pupil$addEntityLoadListener` { EntityAttachmentEntityLoadScope().block() }
+
+public class EntityAttachmentEntityUnloadScope @PublishedApi internal constructor()
+
+public inline fun EntityAttachment.onEntityUnload(crossinline block: EntityAttachmentEntityUnloadScope.() -> Unit): Disposable =
+    (this as EntityAttachmentHook).`pupil$addEntityUnloadListener` { EntityAttachmentEntityUnloadScope().block() }

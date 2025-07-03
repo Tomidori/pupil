@@ -3,7 +3,9 @@
   "package": "org.tomidori.pupil.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ElementHolderMixin"
+    "ElementHolderMixin",
+    "EntityAttachmentExtensions",
+    "ServerWorldServerEntityHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

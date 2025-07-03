@@ -9,6 +9,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      "org.tomidori.pupil.attachments.HolderAttachmentExtensionsTest",
       "org.tomidori.pupil.holders.ElementHolderExtensionsTest"
     ]
   },
