@@ -1,5 +1,6 @@
 package org.tomidori.pupil.elements
 
+import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils
 import eu.pb4.polymer.virtualentity.api.elements.*
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -82,6 +83,9 @@ public inline fun mobAnchorElement(block: MobAnchorElement.() -> Unit = {}): Mob
     MobAnchorElement().apply(block)
 
 public inline fun markerElement(block: MarkerElement.() -> Unit = {}): MarkerElement = MarkerElement().apply(block)
+
+public fun VirtualElement.startRiding(entity: Entity): Unit =
+    VirtualEntityUtils.addVirtualPassenger(entity, *entityIds.toIntArray())
 
 public inline fun DisplayElement.transformation(block: Matrix4f.() -> Unit = {}): Matrix4f =
     matrix4f(block).also { setTransformation(it) }

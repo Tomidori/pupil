@@ -1,6 +1,7 @@
 package org.tomidori.pupil.holders
 
 import eu.pb4.polymer.virtualentity.api.ElementHolder
+import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils
 import eu.pb4.polymer.virtualentity.api.attachment.*
 import eu.pb4.polymer.virtualentity.api.elements.*
 import eu.pb4.polymer.virtualentity.impl.attachment.FallingBlockEntityAttachment
@@ -247,6 +248,9 @@ public inline fun ElementHolder.blockBoundAttachmentMoving(
     state: BlockState,
     block: BlockBoundAttachment.() -> Unit = {}
 ): BlockBoundAttachment? = org.tomidori.pupil.attachments.blockBoundAttachmentMoving(this, world, pos, state, block)
+
+public fun ElementHolder.startRiding(entity: Entity): Unit =
+    VirtualEntityUtils.addVirtualPassenger(entity, *entityIds.toIntArray())
 
 public class HolderStartWatchingScope @PublishedApi internal constructor(
     public val networkHandler: ServerPlayNetworkHandler
