@@ -108,3 +108,11 @@ public fun DisplayElement.startInterpolationIfDirty(duration: Int) {
         startInterpolation(duration)
     }
 }
+
+public var MarkerElement.isSmall: Boolean
+    get() = (this as MarkerElementHook).`pupil$isSmall`()
+    set(value) = (this as MarkerElementHook).`pupil$setSmall`(value)
+
+public var MarkerElement.isMarker: Boolean
+    get() = (this as MarkerElementHook).`pupil$isMarker`()
+    set(value) = (this as MarkerElementHook).`pupil$setMarker`(value)

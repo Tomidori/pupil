@@ -5,6 +5,7 @@
   "mixins": [
     "ElementHolderMixin",
     "EntityAttachmentExtensions",
+    "MarkerElementMixin",
     "ServerWorldServerEntityHandlerMixin"
   ],
   "injectors": {
