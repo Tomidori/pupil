@@ -4,6 +4,36 @@
 for [polymer-virtual-entity](https://github.com/Patbox/polymer). With pupil, you can easily create and manage
 `ElementHolder` instances.
 
+## Gradle Setup
+
+### Groovy
+
+```groovy
+repositories {
+    maven { url 'https://maven.nucleoid.xyz' }
+    maven { url 'https://api.modrinth.com/maven' }
+}
+
+dependencies {
+    modImplementation 'eu.pb4:polymer-virtual-entity:POLYMER_VERSION'
+    modImplementation 'maven.modrinth:pupil:PUPIL_VERSION'
+}
+```
+
+### Kotlin DSL
+
+```kotlin
+repositories {
+    maven("https://maven.nucleoid.xyz")
+    maven("https://api.modrinth.com/maven")
+}
+
+dependencies {
+    modImplementation("eu.pb4:polymer-virtual-entity:POLYMER_VERSION")
+    modImplementation("maven.modrinth:pupil:PUPIL_VERSION")
+}
+```
+
 ## Usage
 
 Here is a simple example.
